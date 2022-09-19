@@ -8,11 +8,14 @@ using namespace yazi::json;
 
 int main()
 {
-    // Json v1 = "jack";
+    // Json v1;
+    // v1["name"] = "jack";
     // Json v2 = v1;
 
-    // std::cout << v1.str() << std::endl;
-    // std::cout << v2.str() << std::endl;
+    // if (v1 == v2)
+    // {
+    //     std::cout << "yes" << std::endl;
+    // }
 
     // v2.clear();
     // return 0;

@@ -320,6 +320,10 @@ bool Json::operator == (const Json & other)
             return (m_value.m_double == other.m_value.m_double);
         case json_string:
             return *(m_value.m_string) == *(other.m_value.m_string);
+        case json_array:
+            return m_value.m_array == other.m_value.m_array;
+        case json_object:
+            return m_value.m_object == other.m_value.m_object;
         default:
             break;
     }
