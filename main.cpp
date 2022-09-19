@@ -53,12 +53,17 @@ int main()
     try
     {
         ifstream fin("./main.json");
-        Json json;
         stringstream ss;
         ss << fin.rdbuf();
         const string & data = ss.str();
+
+        Json json;
         json.parse(data);
         std::cout << json.str() << std::endl;
+
+        const string & name = json["name"];
+        int type = json["age"];
+        const string & area = json["area"][0];
         json.clear();
     }
     catch (std::exception & e)

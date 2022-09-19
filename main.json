@@ -1,8 +1,5 @@
 {
     "name": "jack",
-    "type": [1, true, false],
-    "work": {
-        "area": ["c++", "php", "python", "go"],
-        "year": 10
-    }
+    "age": 30,
+    "area": ["c++", "php", "python", "go"]
 }
