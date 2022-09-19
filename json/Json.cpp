@@ -247,6 +247,16 @@ void Json::clear()
     m_type = json_null;
 }
 
+bool Json::has(int index)
+{
+    if (m_type != json_array)
+    {
+        return false;
+    }
+    int size = (m_value.m_array)->size();
+    return (index >= 0) && (index < size);
+}
+
 bool Json::has(const char * key)
 {
     string name(key);
@@ -260,6 +270,21 @@ bool Json::has(const string & key)
         return false;
     }
     return (m_value.m_object)->find(key) != (m_value.m_object)->end();
+}
+
+void Json::remove(int index)
+{
+    if (m_type != json_array)
+    {
+        return;
+    }
+    int size = (m_value.m_array)->size();
+    if (index < 0 || index >= size)
+    {
+        return;
+    }
+    (m_value.m_array)->at(index).clear();
+    (m_value.m_array)->erase((m_value.m_array)->begin() + index);
 }
 
 void Json::remove(const char * key)

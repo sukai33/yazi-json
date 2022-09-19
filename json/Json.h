@@ -56,9 +56,11 @@ public:
 
     void clear();
 
+    bool has(int index);
     bool has(const char * key);
     bool has(const string & key);
 
+    void remove(int index);
     void remove(const char * key);
     void remove(const string & key);
 

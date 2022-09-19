@@ -44,6 +44,9 @@ int main()
     // arr.append("hello world");
     // std::cout << arr.str() << std::endl;
 
+    // arr.remove(1);
+    // std::cout << arr.str() << std::endl;
+
     // // object value
     // Json obj;
     // obj["name"] = "jun";
