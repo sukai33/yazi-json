@@ -70,7 +70,7 @@ Json Parser::parse()
         }
         case '[':
         {
-            Json arr;
+            Json arr(Json::json_array);
             ch = get_next_token();
             if (ch == ']')
             {
@@ -95,7 +95,7 @@ Json Parser::parse()
         }
         case '{':
         {
-            Json obj;
+            Json obj(Json::json_object);
             ch = get_next_token();
             if (ch == '}')
             {

@@ -24,7 +24,7 @@ public:
     };
 
     Json();
-    // Json(Type type);
+    Json(Type type);
     Json(bool value);
     Json(int value);
     Json(double value);

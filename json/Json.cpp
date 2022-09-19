@@ -11,33 +11,33 @@ Json::Json() : m_type(json_null)
 {
 }
 
-// Json::Json(Type type) : m_type(type)
-// {
-//     switch (m_type)
-//     {
-//         case json_null:
-//             break;
-//         case json_bool:
-//             m_value.m_bool = false;
-//             break;
-//         case json_int:
-//             m_value.m_int = 0;
-//             break;
-//         case json_double:
-//             m_value.m_double = 0.0;
-//             break;
-//         case json_string:
-//             m_value.m_string = new string("");
-//             break;
-//         case json_array:
-//             m_value.m_array = new std::vector<Json>();
-//             break;
-//         case json_object:
-//             m_value.m_object = new std::map<string, Json>();
-//         default:
-//             break;
-//     }
-// }
+Json::Json(Type type) : m_type(type)
+{
+    switch (m_type)
+    {
+        case json_null:
+            break;
+        case json_bool:
+            m_value.m_bool = false;
+            break;
+        case json_int:
+            m_value.m_int = 0;
+            break;
+        case json_double:
+            m_value.m_double = 0.0;
+            break;
+        case json_string:
+            m_value.m_string = new string("");
+            break;
+        case json_array:
+            m_value.m_array = new std::vector<Json>();
+            break;
+        case json_object:
+            m_value.m_object = new std::map<string, Json>();
+        default:
+            break;
+    }
+}
 
 Json::Json(bool value) : m_type(json_bool)
 {
