@@ -4,6 +4,15 @@ a tiny c++ json parser
 
 ## example
 
+main.json
+```json
+{
+    "name": "jack",
+    "age": 30,
+    "area": ["c++", "php", "python", "go"]
+}
+```
+
 ```c++
 #include <iostream>
 #include <fstream>
