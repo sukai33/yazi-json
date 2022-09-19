@@ -225,14 +225,39 @@ string Parser::parse_string()
         }
 
         // The usual case: non-escaped characters
-        if (ch != '\\')
+        if (ch == '\\')
+        {
+            switch (m_str[m_idx])
+            {
+                case 'b':
+                    out += '\b';
+                    break;
+                case 't':
+                    out += '\t';
+                    break;
+                case 'n':
+                    out += '\n';
+                    break;
+                case 'f':
+                    out += '\f';
+                    break;
+                case 'r':
+                    out += '\r';
+                    break;
+                case '"':
+                    out += "\\\"";
+                    break;
+                case '\\':
+                    out += '\\';
+                default:
+                    break;
+            }
+            m_idx++;
+        }
+        else
         {
             out += ch;
-            continue;
         }
-
-        // Handle escapes
-        throw std::logic_error("not support escaped characters in string");
     }
     return out;
 }
