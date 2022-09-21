@@ -39,16 +39,12 @@ Json Parser::parse()
     switch (ch)
     {
         case 'n':
-        {
             m_idx--;
             return parse_null();
-        }
         case 't':
         case 'f':
-        {
             m_idx--;
             return parse_bool();
-        }
         case '-':
         case '0':
         case '1':
@@ -60,73 +56,14 @@ Json Parser::parse()
         case '7':
         case '8':
         case '9':
-        {
             m_idx--;
             return parse_number();
-        }
         case '"':
-        {
             return Json(parse_string());
-        }
         case '[':
-        {
-            Json arr(Json::json_array);
-            ch = get_next_token();
-            if (ch == ']')
-            {
-                return arr;
-            }
-            while (true)
-            {
-                m_idx--;
-                arr.append(parse());
-                ch = get_next_token();
-                if (ch == ']')
-                {
-                    break;
-                }
-                if (ch != ',')
-                {
-                    throw std::logic_error("expected ',' in array");
-                }
-                ch = get_next_token();
-            }
-            return arr;
-        }
+            return parse_array();
         case '{':
-        {
-            Json obj(Json::json_object);
-            ch = get_next_token();
-            if (ch == '}')
-            {
-                return obj;
-            }
-            while (true)
-            {
-                if (ch != '"')
-                {
-                    throw std::logic_error("expected '\"' in object");
-                }
-                string key = parse_string();
-                ch = get_next_token();
-                if (ch != ':')
-                {
-                    throw std::logic_error("expected ':' in object");
-                }
-                obj[key] = parse();
-                ch = get_next_token();
-                if (ch == '}')
-                {
-                    break;
-                }
-                if (ch != ',')
-                {
-                    throw std::logic_error("expected ',' in object");
-                }
-                ch = get_next_token();
-            }
-            return obj;
-        }
+            return parse_object();
         default:
             break;
     }
@@ -256,4 +193,65 @@ string Parser::parse_string()
         }
     }
     return out;
+}
+
+Json Parser::parse_array()
+{
+    Json arr(Json::json_array);
+    char ch = get_next_token();
+    if (ch == ']')
+    {
+        return arr;
+    }
+    while (true)
+    {
+        m_idx--;
+        arr.append(parse());
+        ch = get_next_token();
+        if (ch == ']')
+        {
+            break;
+        }
+        if (ch != ',')
+        {
+            throw std::logic_error("expected ',' in array");
+        }
+        ch = get_next_token();
+    }
+    return arr;
+}
+
+Json Parser::parse_object()
+{
+    Json obj(Json::json_object);
+    char ch = get_next_token();
+    if (ch == '}')
+    {
+        return obj;
+    }
+    while (true)
+    {
+        if (ch != '"')
+        {
+            throw std::logic_error("expected '\"' in object");
+        }
+        string key = parse_string();
+        ch = get_next_token();
+        if (ch != ':')
+        {
+            throw std::logic_error("expected ':' in object");
+        }
+        obj[key] = parse();
+        ch = get_next_token();
+        if (ch == '}')
+        {
+            break;
+        }
+        if (ch != ',')
+        {
+            throw std::logic_error("expected ',' in object");
+        }
+        ch = get_next_token();
+    }
+    return obj;
 }

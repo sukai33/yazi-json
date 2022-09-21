@@ -25,8 +25,10 @@ private:
     Json parse_bool();
     Json parse_number();
     string parse_string();
+    Json parse_array();
+    Json parse_object();
 
-    bool in_range(long x, long lower, long upper)
+    bool in_range(int x, int lower, int upper)
     {
         return (x >= lower && x <= upper);
     }

@@ -303,8 +303,8 @@ void Json::remove(const string & key)
     if (it != (m_value.m_object)->end())
     {
         it->second.clear();
+        (m_value.m_object)->erase(key);
     }
-    (m_value.m_object)->erase(key);
 }
 
 void Json::append(const Json & value)
@@ -392,7 +392,7 @@ Json & Json::operator [] (const char * key)
 
 Json & Json::operator [] (const string & key)
 {
-    if (m_type != json_array)
+    if (m_type != json_object)
     {
         clear();
         m_type = json_object;
