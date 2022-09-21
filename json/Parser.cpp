@@ -169,10 +169,6 @@ Json Parser::parse_number()
     if (m_str[m_idx] == '0')
     {
         m_idx++;
-        if (m_str[m_idx] != '.')
-        {
-            throw std::logic_error("leading 0s not permitted in numbers");
-        }
     }
     else if (in_range(m_str[m_idx], '1', '9'))
     {

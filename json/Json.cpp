@@ -309,14 +309,11 @@ void Json::remove(const string & key)
 
 void Json::append(const Json & value)
 {
-    if (m_type == json_null)
-    {
-        m_type = json_array;
-        m_value.m_array = new std::vector<Json>();
-    }
     if (m_type != json_array)
     {
-        throw std::logic_error("function Json::append requires array value");
+        clear();
+        m_type = json_array;
+        m_value.m_array = new std::vector<Json>();
     }
     (m_value.m_array)->push_back(value);
 }
@@ -362,22 +359,27 @@ bool Json::operator != (const Json & other)
 
 Json & Json::operator [] (int index)
 {
-    if (type() == json_null)
+    if (m_type != json_array)
     {
+        clear();
         m_type = json_array;
-    }
-    if (type() != json_array)
-    {
-        throw std::logic_error("function Json::operator [int] requires array value");
+        m_value.m_array = new std::vector<Json>();
     }
     int size = (m_value.m_array)->size();
     if (index < 0)
     {
         throw std::logic_error("function Json::operator [int] index less than 0");
     }
+    if (index >= 0 && index < size)
+    {
+        return (m_value.m_array)->at(index);
+    }
     if (index >= size)
     {
-        throw std::logic_error("function Json::operator [int] index out of range");
+        for (int i = size; i <= index; i++)
+        {
+            (m_value.m_array)->push_back(Json());
+        }
     }
     return (m_value.m_array)->at(index);
 }
@@ -390,14 +392,11 @@ Json & Json::operator [] (const char * key)
 
 Json & Json::operator [] (const string & key)
 {
-    if (m_type == json_null)
+    if (m_type != json_array)
     {
+        clear();
         m_type = json_object;
         m_value.m_object = new std::map<string, Json>();
-    }
-    if (m_type != json_object)
-    {
-        throw std::logic_error("function Json::operator [const string &] requires object value");
     }
     return (*(m_value.m_object))[key];
 }

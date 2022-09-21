@@ -6,6 +6,8 @@ using namespace std;
 #include "Json.h"
 using namespace yazi::json;
 
+#include <sys/time.h>
+
 int main()
 {
     // Json v1;
@@ -47,6 +49,13 @@ int main()
     // arr.remove(1);
     // std::cout << arr.str() << std::endl;
 
+    // Json arr;
+    // arr[0] = 123;
+    // arr[1] = 1.23;
+    // arr[2] = "hello world";
+    // arr[5] = true;
+    // std::cout << arr.str() << std::endl;
+
     // // object value
     // Json obj;
     // obj["name"] = "jun";
@@ -56,25 +65,33 @@ int main()
     // obj.clear();
     // return 0;
 
-    try
-    {
-        ifstream fin("./main.json");
-        stringstream ss;
-        ss << fin.rdbuf();
-        const string & data = ss.str();
+    // try
+    // {
+    //     ifstream fin("./test.json");
+    //     stringstream ss;
+    //     ss << fin.rdbuf();
+    //     const string & data = ss.str();
 
-        Json json;
-        json.parse(data);
-        std::cout << json.str() << std::endl;
-
-        const string & name = json["name"];
-        int type = json["age"];
-        const string & area = json["area"][0];
-        json.clear();
-    }
-    catch (std::exception & e)
-    {
-        std::cout << "catch exception: " << e.what() << std::endl;
-    }
-    return 0;
+    //     struct timeval tv;
+    //     gettimeofday(&tv, NULL);
+    //     int start_sec = tv.tv_sec;
+    //     int start_usec = tv.tv_usec;
+    //     const int max = 100000;
+    //     for (int i = 0; i < max; i++)
+    //     {
+    //         Json json;
+    //         json.parse(data);
+    //         json.clear();
+    //     }
+    //     gettimeofday(&tv, NULL);
+    //     int end_sec = tv.tv_sec;
+    //     int end_usec = tv.tv_usec;
+    //     double time_diff = (end_sec - start_sec) * 1000000 + (end_usec - start_usec);
+    //     std::cout << time_diff / 1000 / max << "ms" << std::endl;
+    // }
+    // catch (std::exception & e)
+    // {
+    //     std::cout << "catch exception: " << e.what() << std::endl;
+    // }
+    // return 0;
 }
