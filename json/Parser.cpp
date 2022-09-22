@@ -1,8 +1,9 @@
 #include <string.h>
 #include <stdexcept>
 #include <cstdlib>
-#include "Parser.h"
+using namespace std;
 
+#include "Parser.h"
 using namespace yazi::json;
 
 Parser::Parser() : m_idx(0)
@@ -126,17 +127,14 @@ Json Parser::parse_number()
     }
 
     // decimal part
-    if (m_str[m_idx] == '.')
+    m_idx++;
+    if (!in_range(m_str[m_idx], '0', '9'))
+    {
+        throw std::logic_error("at least one digit required in fractional part");
+    }
+    while (in_range(m_str[m_idx], '0', '9'))
     {
         m_idx++;
-        if (!in_range(m_str[m_idx], '0', '9'))
-        {
-            throw std::logic_error("at least one digit required in fractional part");
-        }
-        while (in_range(m_str[m_idx], '0', '9'))
-        {
-            m_idx++;
-        }
     }
     return Json(std::atof(m_str.c_str() + pos));
 }
@@ -160,7 +158,8 @@ string Parser::parse_string()
         // The usual case: non-escaped characters
         if (ch == '\\')
         {
-            switch (m_str[m_idx])
+            ch = m_str[m_idx++];
+            switch (ch)
             {
                 case 'b':
                     out += '\b';
@@ -181,11 +180,18 @@ string Parser::parse_string()
                     out += "\\\"";
                     break;
                 case '\\':
-                    out += '\\';
+                    out += "\\\\";
+                    break;
+                case 'u':
+                    out += "\\u";
+                    for (int i = 0; i < 4; i++)
+                    {
+                        out += m_str[m_idx++];
+                    }
+                    break;
                 default:
                     break;
             }
-            m_idx++;
         }
         else
         {
@@ -203,9 +209,9 @@ Json Parser::parse_array()
     {
         return arr;
     }
+    m_idx--;
     while (true)
     {
-        m_idx--;
         arr.append(parse());
         ch = get_next_token();
         if (ch == ']')
@@ -216,7 +222,7 @@ Json Parser::parse_array()
         {
             throw std::logic_error("expected ',' in array");
         }
-        ch = get_next_token();
+        m_idx++;
     }
     return arr;
 }
@@ -229,8 +235,10 @@ Json Parser::parse_object()
     {
         return obj;
     }
+    m_idx--;
     while (true)
     {
+        ch = get_next_token();
         if (ch != '"')
         {
             throw std::logic_error("expected '\"' in object");
@@ -251,7 +259,6 @@ Json Parser::parse_object()
         {
             throw std::logic_error("expected ',' in object");
         }
-        ch = get_next_token();
     }
     return obj;
 }

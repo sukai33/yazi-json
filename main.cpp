@@ -10,16 +10,13 @@ using namespace yazi::json;
 
 int main()
 {
-    // Json v1;
-    // v1["name"] = "jack";
-    // Json v2 = v1;
-
-    // if (v1 == v2)
-    // {
-    //     std::cout << "yes" << std::endl;
-    // }
-
-    // v2.clear();
+    // ifstream fin("./t.json");
+    // stringstream ss;
+    // ss << fin.rdbuf();
+    // const string & data = ss.str();
+    // Json v;
+    // v.parse(data);
+    // std::cout << v.str() << std::endl;
     // return 0;
 
     // Json v1 = true;
@@ -76,12 +73,12 @@ int main()
         gettimeofday(&tv, NULL);
         int start_sec = tv.tv_sec;
         int start_usec = tv.tv_usec;
-        const int max = 100000;
+        const int max = 1;
         for (int i = 0; i < max; i++)
         {
             Json json;
             json.parse(data);
-            // std::cout << json.str() << std::endl;
+            std::cout << json.str() << std::endl;
             json.clear();
         }
         gettimeofday(&tv, NULL);
