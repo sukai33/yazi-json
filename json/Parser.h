@@ -18,7 +18,7 @@ public:
     Json parse();
 
 private:
-    void skip_white_spaces();
+    void skip_white_space();
     char get_next_token();
 
     Json parse_null();

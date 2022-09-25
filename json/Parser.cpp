@@ -20,7 +20,7 @@ void Parser::load(const string & str)
     m_idx = 0;
 }
 
-void Parser::skip_white_spaces()
+void Parser::skip_white_space()
 {
     while (m_str[m_idx] == ' ' || m_str[m_idx] == '\r' || m_str[m_idx] == '\n' || m_str[m_idx] == '\t')
         m_idx++;
@@ -28,7 +28,7 @@ void Parser::skip_white_spaces()
 
 char Parser::get_next_token()
 {
-    skip_white_spaces();
+    skip_white_space();
     if (m_idx == m_str.size())
         throw std::logic_error("unexpected end of input");
     return m_str[m_idx++];
