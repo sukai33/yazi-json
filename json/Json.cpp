@@ -318,10 +318,11 @@ void Json::append(const Json & value)
     (m_value.m_array)->push_back(value);
 }
 
-void Json::operator = (const Json & other)
+Json & Json::operator = (const Json & other)
 {
     clear();
     copy(other);
+    return *this;
 }
 
 bool Json::operator == (const Json & other)

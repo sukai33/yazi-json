@@ -67,7 +67,7 @@ public:
     // append value to array at the end.
     void append(const Json & value);
 
-    void operator = (const Json & other);
+    Json & operator = (const Json & other);
     bool operator == (const Json & other);
     bool operator != (const Json & other);
 
