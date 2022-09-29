@@ -141,7 +141,7 @@ Json Parser::parse_number()
 
 string Parser::parse_string()
 {
-    string out;
+    int pos = m_idx;
     while (true)
     {
         if (m_idx == m_str.size())
@@ -162,43 +162,22 @@ string Parser::parse_string()
             switch (ch)
             {
                 case 'b':
-                    out += '\b';
-                    break;
                 case 't':
-                    out += '\t';
-                    break;
                 case 'n':
-                    out += '\n';
-                    break;
                 case 'f':
-                    out += '\f';
-                    break;
                 case 'r':
-                    out += '\r';
-                    break;
                 case '"':
-                    out += "\\\"";
-                    break;
                 case '\\':
-                    out += "\\\\";
                     break;
                 case 'u':
-                    out += "\\u";
-                    for (int i = 0; i < 4; i++)
-                    {
-                        out += m_str[m_idx++];
-                    }
+                    m_idx += 4;
                     break;
                 default:
                     break;
             }
         }
-        else
-        {
-            out += ch;
-        }
     }
-    return out;
+    return m_str.substr(pos, m_idx - pos - 1);
 }
 
 Json Parser::parse_array()
