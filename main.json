@@ -1,5 +1,5 @@
 {
-    "name": "jack",
-    "age": 123.12,
+    "name": "ja\tck",
+    "age": 18,
     "area": ["c++", "php", "python", "go"]
 }
