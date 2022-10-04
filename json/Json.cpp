@@ -30,7 +30,7 @@ Json::Json(Type type) : m_type(type)
             m_value.m_string = new string("");
             break;
         case json_array:
-            m_value.m_array = new std::vector<Json>();
+            m_value.m_array = new std::list<Json>();
             break;
         case json_object:
             m_value.m_object = new std::map<string, Json>();
@@ -152,31 +152,7 @@ string Json::asString() const
 void Json::copy(const Json & other)
 {
     m_type = other.m_type;
-    switch (m_type)
-    {
-        case json_null:
-            break;
-        case json_bool:
-            m_value.m_bool = other.m_value.m_bool;
-            break; 
-        case json_int:
-            m_value.m_int = other.m_value.m_int;
-            break;
-        case json_double:
-            m_value.m_double = other.m_value.m_double;
-            break;
-        case json_string:
-            m_value.m_string = other.m_value.m_string;
-            break;
-        case json_array:
-            m_value.m_array = other.m_value.m_array;
-            break;
-        case json_object:
-            m_value.m_object = other.m_value.m_object;
-            break;
-        default:
-            break;
-    }
+    m_value = other.m_value;
 }
 
 int Json::size() const
@@ -283,8 +259,13 @@ void Json::remove(int index)
     {
         return;
     }
-    (m_value.m_array)->at(index).clear();
-    (m_value.m_array)->erase((m_value.m_array)->begin() + index);
+    auto it = (m_value.m_array)->begin();
+    for (int i = 0; i < index; i++)
+    {
+        it++;
+    }
+    it->clear();
+    (m_value.m_array)->erase(it);
 }
 
 void Json::remove(const char * key)
@@ -313,7 +294,7 @@ void Json::append(const Json & value)
     {
         clear();
         m_type = json_array;
-        m_value.m_array = new std::vector<Json>();
+        m_value.m_array = new std::list<Json>();
     }
     (m_value.m_array)->push_back(value);
 }
@@ -360,20 +341,25 @@ bool Json::operator != (const Json & other)
 
 Json & Json::operator [] (int index)
 {
-    if (m_type != json_array)
-    {
-        clear();
-        m_type = json_array;
-        m_value.m_array = new std::vector<Json>();
-    }
-    int size = (m_value.m_array)->size();
     if (index < 0)
     {
         throw std::logic_error("function Json::operator [int] index less than 0");
     }
+    if (m_type != json_array)
+    {
+        clear();
+        m_type = json_array;
+        m_value.m_array = new std::list<Json>();
+    }
+    int size = (m_value.m_array)->size();
     if (index >= 0 && index < size)
     {
-        return (m_value.m_array)->at(index);
+        auto it = (m_value.m_array)->begin();
+        for (int i = 0; i < index; i++)
+        {
+            it++;
+        }
+        return *it;
     }
     if (index >= size)
     {
@@ -382,7 +368,7 @@ Json & Json::operator [] (int index)
             (m_value.m_array)->push_back(Json());
         }
     }
-    return (m_value.m_array)->at(index);
+    return (m_value.m_array)->back();
 }
 
 Json & Json::operator [] (const char * key)

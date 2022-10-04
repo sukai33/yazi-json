@@ -3,7 +3,7 @@
 #include <string>
 using std::string;
 
-#include <vector>
+#include <list>
 #include <map>
 
 namespace yazi {
@@ -83,7 +83,7 @@ public:
     void parse(const string & str);
     string str() const;
 
-    typedef std::vector<Json>::iterator iterator;
+    typedef std::list<Json>::iterator iterator;
     iterator begin()
     {
         return (m_value.m_array)->begin();
@@ -103,7 +103,7 @@ private:
         int m_int;
         double m_double;
         std::string * m_string;
-        std::vector<Json> * m_array;
+        std::list<Json> * m_array;
         std::map<string, Json> * m_object;
     };
 
