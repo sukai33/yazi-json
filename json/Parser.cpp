@@ -201,7 +201,6 @@ Json Parser::parse_array()
         {
             throw std::logic_error("expected ',' in array");
         }
-        m_idx++;
     }
     return arr;
 }
